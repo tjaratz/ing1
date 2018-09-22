@@ -403,28 +403,16 @@ remove: aName from: container
 			] 
 	].! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'HAW 9/19/2018 08:41:50'!
+!CustomerBook methodsFor: 'customer management' stamp: 'tj 9/22/2018 19:23:28'!
 removeCustomerNamed: aName 
+    
+	 (self includesCustomerNamed: aName) ifTrue: [self remove: aName from:  customers.	
+															self remove: aName from:  suspended.] 
+														
+												    ifFalse: [^ NotFound signal.].
  
-	1 to: customers size do: 
-	[ :index |
-		aName = (customers at: index)
-			ifTrue: [
-				customers removeAt: index.
-				^ aName 
-			] 
-	].
-
-	1 to: suspended size do: 	
-	[ :index |
-		aName = (suspended at: index)
-			ifTrue: [
-				suspended removeAt: index.
-				^ aName 
-			] 
-	].
 	
-	^ NotFound signal.
+	
 ! !
 
 !CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:52'!
@@ -437,7 +425,7 @@ signalCustomerNameCannotBeEmpty
 
 	self error: self class customerCanNotBeEmptyErrorMessage ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 9/19/2018 17:27:55'!
+!CustomerBook methodsFor: 'customer management' stamp: 'tj 9/22/2018 19:24:37'!
 suspendCustomerNamed: aName 
 	
 	(customers includes: aName) ifFalse: [^CantSuspend signal].
