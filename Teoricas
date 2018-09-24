@@ -1,0 +1,171 @@
+Mensaje: representa un pedido de colaboracion, no es un metodo. En funcion del mensaje puede ejecutarse un metodo u otro o ninguno. El mensaje dice el que y no el como(esto lo hace el metodo)
+
+Similitud entre Clousure y Metodo: ambos son una secuencia de colaboraciones
+Diferencias: el Clousure no tiene nombre, el metodo si
+
+
+Lenguajes prototipados vs clasificados
+
+Teórica:
+
+Buscar :
+			- incrementar la COHESIÓN
+			- reducir el ACOPLAMIENTO (dependencias)
+
+Los mensajes definen QUE es lo que puede hacer un objeto, es la parte declarativa del modelo.
+
+Mensajes que sabe responder un mensaje:
+										- sendTo: unObjeto
+										- name
+
+
+Cuando un objeto recibe un mensaje lo único que puede hacer es responder con otro mensaje.
+
+El método define el COMO.
+
+Colaboraciones: la instanciacion del mensaje
+
+ 	- son sincronicas (el objeto enviante espera la respuesta del mensaje para mandar un proximo mensaje)
+ 	- son dirigidas (para que un objeto le envie un mensaje a otro lo tiene que conocer, no es broadcast) --> RELACION DE CONOCIMIENTO
+ 	- siempre existe respuesta (siempre se obtiene un objeto como respuesta, nil representa la nada)
+ 	- el receptor desconoce al emisor (los objetos se deben comportar de forma objetiva, si supiera quien es el emisor podría responder en función de
+ 	  quien le envía el mensaje)
+
+RELACION DE CONOCIMIENTO: es la unica relacion que el paradigma define entre objetos.
+					      ej: 1/2 conoce al 1 y al 2. A esta relacion se le pone un nombre, el 1 sería el 'numerador' y el 2 el 'denominador'.
+					      
+					      El nombre de un objeto se da a partir del rol que cumple el objeto segun el contexto en el que se lo esta nombrando(che boludo, papa, hijo) --> 2/3 va a llamar al 2 'numerador'
+
+No representamos al ente per se, no llamamos a un objeto 'persona'. Lo que hacemos es modelar a la parsona en un contexto particular. El rol que el ente cumple en el contexto que estamos representando.
+
+Mensajes importantes que debe saber responder 'unColaborador' : {value, value:, type, name}
+
+En los lenguajes dinamicamente tipados los colaboradores no saben responder al mensaje type, en los estaticamente tipados si.
+
+el ':=' no es un mensaje, es una palabra reservada del lenguaje.
+
+- variable := objeto
+- objeto mensaje
+
+
+Que pasaría si en vez de objetos colaboraciones mensajes tuviera objetos mensajes y todo objeto sabe responder los mensajes que responde un colaborador:
+value
+value:
+name
+
+Seudovariables: self y thisContext. No hay que definirlas, en ningun lugar se inicializan y no se pueden modificar, siempre apuntan a algun objeto.
+thisContext: 
+
+En el desarrollo creamos las abstracciones a medida que las necesistamos, no de antemano. De esa forma nos ahorramos sobrediseñar.
+
+4 pasos para sacar codigo repetido.
+
+Es importante buscar el rol de los entes del dominio del problema, no de lo que ve en el dominio. LuzAmarilla no es un buen nombre ya que la luz representa una señal de precaucion, por ende deberia llamarse "señal de precaucion de corrientes", asi como las demas: señal de avance de corrientes/maipu, señal de detencion de corrientes/maipu, etc.
+
+Romper el encapsulamiento aumenta el acoplamiento y ademas le quita la responsabilidad a los objetos.
+
+El codigo repetido indica que falta una abstraccion.
+
+Modelo platon:
+
+Las clases son objetos que representan ideas/conceptos.
+
+Segun la vision clasica/aristotelica las instancias de la clase se comportan como la clase indica, por ende toda instancia sabe a que clase pertenece/ de quien es instancia. El objeto no conoce la implementacion de los mensajes que sabe responder, de hecho le pide pregunta a la clase si implementa dicho mensaje y le pide que lo ejecute. 
+
+Es discutible que las clases sepan responder el mensaje new, pues no se deberia esperar que el ente abstracto sepa responder objetos concretos.
+
+En java, c++ etc el new no es un mensaje por lo que no puede ser redefinido, por esto tenemos los constructores que si pueden redefinirse.
+
+
+Super es una pseudovariable que apunta al mismo objeto que self.
+
+Self y super referencial al mismo objeto pero se busca la implementacion del mensaje de distinta forma.
+
+Self la busca en el objeto mismo, super la busca en la superclase del objeto donde se usa super.
+
+Existe porque uno de los objetivos al principio era programar por diferencia, si yo queria diferir la implementacion de un metodo un poco respecto de la de otro puedo usar super. 
+
+Practica:
+
+"devuelve una coleccion aplicando la operacion a los elementos"
+#(1 2 3 4 5)  collect: [:element | element * 2].  
+
+"devuelve una coleccion seleccionando los elementos segun algun criterio"
+#(1 2 3 4 5)  select: [:element | element odd].
+
+"recorre la coleccion en orden(ninguno en particular) y devuelve un elemento"
+"no hay que usarlo porque le da la responsabilidad al que nos invoca de la convencion que utilizamos"
+#(1 2 3 4 5)  detect: [:element | element   > 10] ifNone: [^ 'no hay nada']. 
+
+"es como un fold" 
+#(1 2 3 4 5)  inject: 0 into: [:sum :element | sum + element]
+
+'asdfklgjhsdafljh' select: [:char | char = 'a']
+
+CLASE SIGUIENTE:
+
+POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son polimorficos entre si respecto de un conjunto de mensajes si los objetos responden a todos los mensajes semanticamente igual. Semanticamente igual significa "QUE haga lo mismo". 
+
+ - los colaboradores deben ser polimorficos
+
+ - no tiene que ver exclusivamente con clases
+
+ - no ninguna relacion/restriccion polimorfismo/clase. Los lenguajes dinamicamente tipados son menos acoplados respecto de los tipos que los estaticos.
+
+ 	1) el polimorfismo permite intercambiar implementacion sin que el que usa el objeto se entere. En el semaforo si quisiera tener señales sonoras
+ 	   como la de maipu, las soluciones que tengo son: 1- voy al regulador de transito de maipu y le agrego un nuevo colaborador "señal de detencion sonora" y empezar a apgar y prender la señal en los metodos que la usan, aunque ese cambio es una paja porque implica modificar en muchos lugares.
+ 	   2- creo un objeto llamado señal compuesta, que tenga la señal luminica y la sonora y luego la hacemos polimorfica con la señal comun, tal que al prender le mande a la señal luminica y sonora la señal prender, lo mismo con apagar y en los lugares que uso "señal simple" paso a usar "señal compuesta".
+
+ 	2) me simplifica el vocabulario haciendo mas simple el modelo.
+ 	
+ 	Al escribir codigo en castellano perdemos la capacidad de implementar polimorfismo pues el codigo ya viene hecho en ingles en general.
+
+
+ 	Un clousure es un objeto que representa un conjunto de colaboraciones, asi como los metodos. La primer diferencia es que el clousure no tiene un nombre asociado. La segunda es como se realiza el binding de las variables. El clousure se bindea en el contexto que esta siendo instanciado
+
+ 	Los clousures de smalltalk ruby y self son full clousures, esto difiere de las clousures normales en como se bindean los returns dentro de 
+ 	los clousures, ej: 
+
+ 	metodoEjemplo
+
+ 			aClousure := [return 10].
+ 			return 20 + aClousure value   
+
+ 	si ejecuto metodoEjemplo se retorna 10 porque el return las full clousures se bindea al contexto donde ejecuta, por ende bindea el return del clousure al return del metodo.
+
+
+ 	Los lenguajes prototipados permiten representar facilmente objetos con comportamiento especifico sin mas que los mismos objetos. En los lenguajes de clasificacion hay que caer en el "if" o tener una jerarquia de clases que me diferencie el comportamiento. Un lenguaje de clasificacion no permite modelar entidades cuya instancia y concepto sean unicos, DIOS es un ejemplo.
+
+ 	Sacar codigo repetido:
+
+ 	 
+		- copio lo que se repite
+		- parametrizo lo que cambia (agregar los colaboradores eternos)
+		- nombrarlo (al metodo)
+		- usar lo que hicimos
+
+
+
+   Si el lenguaje tiene full closures entonces la sintaxis de control de flujo se puede implementar a travez de mensajes(guy steele, sussman => lisp + algol 60(toman el binding lexicografico) = scheme) y asi nacen los closures. En el paper Lambda the Ultimate.. demuestran que con full closures pueden implementar sintaxis de control de flujo sin sintaxis especifica. Ver videos antes.
+
+   Soar --> Smalltalk on a risc 84 - GC Generacional
+   Gilad Bracha - Self
+   Lisp Machines.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
