@@ -140,7 +140,7 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
 
  	 
 		- copio lo que se repite
-		- parametrizo lo que cambia (agregar los colaboradores eternos)
+		- parametrizo lo que cambia (agregar los colaboradores externos)
 		- nombrarlo (al metodo)
 		- usar lo que hicimos
 
@@ -149,8 +149,30 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
    Si el lenguaje tiene full closures entonces la sintaxis de control de flujo se puede implementar a travez de mensajes(guy steele, sussman => lisp + algol 60(toman el binding lexicografico) = scheme) y asi nacen los closures. En el paper Lambda the Ultimate.. demuestran que con full closures pueden implementar sintaxis de control de flujo sin sintaxis especifica. Ver videos antes.
 
    Soar --> Smalltalk on a risc 84 - GC Generacional
-   Gilad Bracha - Self
+   Gilad Bracha - Self - StringTalk - Java HotSpot 1.2 - JavaScript v8 engine
    Lisp Machines.
+
+
+   Las funciones anonimas de java son sintactic sugar, no son realmente closures, por ejemplo no permite modificar variables del contexto.
+
+   Go no tiene manejo de excepciones ni manejo de generics("templates")
+
+   Lenguaje sin closures implica codigo repetido => no vale la pena
+
+   Es mejor usar polimorfismo porque de esa forma la decision la toman los objetos, en cambio si uso if's yo estoy harcodeando la logica y esto es propenso a errores.
+
+   Como reemplazar ifs con polimorfismo:
+   
+   	1- Crear una jerarquia polimorfica con una abstraccion para cada condicion de if(opcional, a veces ya existe).
+   	2- Mover el cuerpo de cada if a cada abstraccion correspondiente.
+   	3- Nombrar las abstracciones de 1)
+   	4- Nombrar el mensaje de 2)
+   	5- Reemplazar ifs por envio de mensaje polimorfico
+   	6- Buscar objeto polimorfico(opcional, a veces ya existe).
+
+   	aCallCostCalculator := CallCostCalculator for: aPhoneCall
+   	aCallCostCalculator calculate: aPhonecall.
+
 
 
 
