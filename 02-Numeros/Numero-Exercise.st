@@ -375,26 +375,31 @@ Numero subclass: #Entero
 	^ anAdder sumarEntero: self.
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:24:55'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/27/2018 21:43:11'!
 - aSubtrahend 
 	
-	^ (aSubtrahend * (Entero with: -1)) sumarEntero: self! !
+	 ^ (aSubtrahend) restarAEntero: self! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:05:22'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/27/2018 21:34:49'!
 / aDivisor 
 	
-	^ (aDivisor inverso) multiplicarEntero: self! !
+	^ aDivisor dividirAEntero: self.
+! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:55'!
 // aDivisor 
 	
 	^self class with: value // aDivisor integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:32:12'!
-divididoFraccion: aDivisor
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/27/2018 21:30:02'!
+dividirAEntero: unDividendo
 	
+	^ Fraccion with: unDividendo over: self.! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/27/2018 21:30:53'!
+dividirAFraccion: unDividendo
 	
-	^ (Fraccion with: aDivisor denominator over: aDivisor numerator) * self! !
+	^ Fraccion with: unDividendo numerator over: unDividendo denominator * self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:30:59'!
 dividoEntero: aDivisor
@@ -421,20 +426,25 @@ greatestCommonDivisorWith: anEntero
 	
 	^self class with: (value gcd: anEntero integerValue)! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:10:03'!
-inverso
-
-	^ Fraccion with: (Entero with: 1) over: self! !
-
 !Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 15:45:55'!
 multiplicarEntero: aMultiplier
 
 	^ self class with: value * aMultiplier integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:03:39'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:25:38'!
 multiplicarFraccion: aMultiplier
 
-	^ ((self class with: value) * aMultiplier numerator) / aMultiplier denominator ! !
+	^ (self class with: value) * aMultiplier numerator / aMultiplier denominator ! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:13:49'!
+restarAEntero: unMinuendo
+	
+	^  self class with:unMinuendo integerValue  - self integerValue ! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:18:49'!
+restarAFraccion: unMinuendo
+	
+	^ Fraccion with: unMinuendo numerator - (unMinuendo denominator * self ) over: unMinuendo denominator.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 14:42:11'!
 sumarEntero: anAdder
@@ -531,80 +541,66 @@ Numero subclass: #Fraccion
 	
 	^ anAdder sumarFraccion: self! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:25:57'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:23:17'!
 - aSubtrahend 
 	
-	^ (aSubtrahend * (Entero with: -1)) sumarFraccion: self
+	^ aSubtrahend restarAFraccion: self
 ! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:05:06'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:19:47'!
 / aDivisor 
 	
-	^ (aDivisor inverso) multiplicarFraccion: self .
-! !
+	^ aDivisor dividirAFraccion: self.
+	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:37:58'!
-divididoEntero: aDivisor
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:20:01'!
+dividirAEntero: unDividendo
 	
-	^ self * (Fraccion with: 1 over: aDivisor)! !
+	^ self class with: unDividendo * denominator  over: numerator .! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:36:59'!
-divididoFraccion: aDivisor
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:20:06'!
+dividirAFraccion: unDividendo
 	
-	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator)! !
+	^ self class with:  denominator * unDividendo  numerator  over: numerator  * unDividendo denominator.! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:11:32'!
-inverso
-
-	^ Fraccion with:  (Entero with: (self denominator) integerValue ) over: (Entero with: (self numerator) integerValue )! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:07:13'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:24:47'!
 multiplicarEntero: aMultiplier
 	
-	^ Fraccion with: (self numerator * aMultiplier) over: self denominator
+	^ self class with: self numerator * aMultiplier over: self denominator
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 17:06:49'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:25:06'!
 multiplicarFraccion: aMultiplier
 	
-	^Fraccion with: (self numerator *  aMultiplier  numerator) over: (self denominator * aMultiplier  denominator).
+	^self class with: self numerator *  aMultiplier  numerator over: self denominator * aMultiplier  denominator.
 	
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:17:12'!
-restarEntero: aSubtrahend
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:22:57'!
+restarAEntero: unMinuendo
 	
-	^ self + (aSubtrahend * Entero with: -1)! !
+	 ^ self class with: unMinuendo *  self denominator - self numerator over: self denominator.! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 16:16:20'!
-restarFraccion: aSubtrahend
-
-	| newNumerator newDenominator |
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/27/2018 21:55:06'!
+restarAFraccion: unMinuendo
 	
-	newNumerator := (numerator * aSubtrahend denominator) - (denominator * aSubtrahend numerator).
-	newDenominator := denominator * aSubtrahend denominator.
-	
-	^newNumerator / newDenominator! !
+	^self class with:( unMinuendo numerator * self denominator) - (unMinuendo denominator * self numerator) over: unMinuendo denominator * self denominator.! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 14:51:06'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:22:34'!
 sumarEntero: anAdder
 	
-	^ (self denominator  * anAdder + self numerator) / self denominator ! !
+	^ self denominator  * anAdder + self numerator / self denominator ! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/25/2018 15:40:32'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'tj 9/28/2018 10:22:19'!
 sumarFraccion: anAdder
-
-	|denominador|
 	
-	denominador _ self denominator  * anAdder denominator .
-	
-	^ ((anAdder denominator * self numerator) + (anAdder numerator * self denominator)) / denominador ! !
+	^ (anAdder denominator * self numerator) + (anAdder numerator * self denominator) / (self denominator  * anAdder denominator) ! !
 
 
-!Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:42'!
+!Fraccion methodsFor: 'comparing' stamp: 'tj 9/28/2018 10:24:15'!
 = anObject
 
-	^(anObject isKindOf: self class) and: [ (numerator * anObject denominator) = (denominator * anObject numerator) ]! !
+	^ (anObject isKindOf: self class) and: [ (numerator * anObject denominator) = (denominator * anObject numerator) ]! !
 
 !Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:50'!
 hash

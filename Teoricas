@@ -173,6 +173,38 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
    	aCallCostCalculator := CallCostCalculator for: aPhoneCall
    	aCallCostCalculator calculate: aPhonecall.
 
+   	algol60
+   	ml
+   	lisp
+   	simula
+   	fortran
+
+
+   	1) Favorece uso de objetos inmutables 
+   	2) Crear ojetos completos
+   	3) Crear objetos validos
+   	4) No usar nil
+   		- Null Object
+   		- Maybe/Optional
+   		-----> remove:ifAbsent: // at:ifAbsent: // direccionIfNone: [ .... ] SOLO SIRVE EN LENGUAJES DINAMICAMENTE TIPADOS CON FULL CLOSURES.
+
+   		direccionIfNone: aBlock
+   		^direccion ifNil: aBlock	
+
+
+   	5) No usar setters
+   	6) Utilizar updates atomicos
+   		unCLiente syncWith: anotherCliente
+   	7) Modelar el conjunto de objetos	
+
+
+   	^ aLlamada costo
+
+   	tarifadorDeLLamada := tarifador para: aLlamada
+
+   	para: aLlamada
+   		self subclasses detect [:aTarifadorClass | aTarifadorClass esPara: aLlamada].
+   		^ tarifadorClass newPara: aLlamada
 
 
 
