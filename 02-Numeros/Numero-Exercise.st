@@ -407,20 +407,11 @@ dividoEntero: aDivisor
 	^Fraccion with: self over: aDivisor
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'as 9/29/2018 13:49:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'tj 10/1/2018 11:38:59'!
 fibonacci
 
 	self subclassResponsibility.
-
-	"| one two |
-	
-	one := Entero with: 1.
-	two := Entero with: 2.
-	
-	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
-	(self isZero or: [self isOne]) ifTrue: [^one].
-	
-	^ (self - one) fibonacci + (self - two) fibonacci"! !
+! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:00'!
 greatestCommonDivisorWith: anEntero 
@@ -470,14 +461,14 @@ hash
 	^value hash! !
 
 
-!Entero methodsFor: 'initialization' stamp: 'as 9/29/2018 16:07:58'!
+!Entero methodsFor: 'initialization' stamp: 'tj 9/30/2018 20:14:42'!
 initalizeWith: aValue 
-	"creo que este if es inevitable"
+	"creo que este if es inevitable
 	
 	aValue = 1 ifTrue: [^Uno new initialize].
 	aValue = 0 ifTrue: [^Cero new initialize].
 	aValue < 0 ifTrue: [^Negativo new initializeWith: aValue].
-	^Positivo new initializeWith: aValue.! !
+	^Positivo new initializeWith: aValue."! !
 
 
 !Entero methodsFor: 'value' stamp: 'HernanWilkinson 5/7/2016 21:02'!
@@ -515,17 +506,21 @@ isZero
 Entero class
 	instanceVariableNames: ''!
 
-!Entero class methodsFor: 'instance creation' stamp: 'NR 9/23/2018 22:17:16'!
+!Entero class methodsFor: 'instance creation' stamp: 'tj 10/1/2018 11:39:30'!
 negativeFibonacciErrorDescription
-	^ ' Fibonacci no está definido aquí para enteros negativos'! !
+	^ ' Fibonacci no está definido para enteros negativos'! !
 
-!Entero class methodsFor: 'instance creation' stamp: 'HernanWilkinson 5/7/2016 22:53'!
+!Entero class methodsFor: 'instance creation' stamp: 'tj 10/1/2018 10:26:21'!
 with: aValue 
 	
 	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan"
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
-	^self new initalizeWith: aValue! !
+	aValue = 1 ifTrue: [^ Uno new initialize].
+	aValue = 0 ifTrue: [^ Cero new initialize].
+	aValue < 0 ifTrue: [^ Negativo new initializeWith: aValue].
+	aValue > 0 ifTrue: [^ Positivo new initializeWith: aValue]	
+! !
 
 
 !classDefinition: #Cero category: #'Numero-Exercise'!
@@ -592,9 +587,9 @@ Entero subclass: #Uno
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Uno methodsFor: 'math' stamp: 'as 9/29/2018 16:15:20'!
+!Uno methodsFor: 'math' stamp: 'tj 10/1/2018 11:44:52'!
 fibonacci
-	"Fibonacci acá devuelve siempre 1. Código repetido con 0. Sacar? subcategorizar en una clase que tenga como fibonacci NúmerosQueDevuelven1EnFibonacci y sólo cambia la inicialización. Quizás sacar el initialize y que sea responsabilidad del new? pero parecía pisarse. mf"
+
 	^ Entero with: 1! !
 
 
@@ -699,7 +694,7 @@ numerator
 	^ numerator! !
 
 
-!Fraccion methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 22:54'!
+!Fraccion methodsFor: 'initialization' stamp: 'tj 10/1/2018 11:37:58'!
 initializeWith: aNumerator over: aDenominator
 
 	"Estas precondiciones estan por si se comenten errores en la implementacion - Hernan"
