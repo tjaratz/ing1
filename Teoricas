@@ -207,6 +207,44 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
    		^ tarifadorClass newPara: aLlamada
 
 
+Si redefinimos el igual tenemos que redefinir el hash.
+
+EXCEPTIONS:
+
+   Representan que se rompio un contrato, ante esto podemos hacer dos cosas:
+      
+      - Avisar: es necesario para hacer buen software avisar apenas se rompe un contrato, INMEDIATAMENTE(fail fast).
+      - Hacernos los giles.
+
+
+      Cosas a tener en cuenta:
+
+         - Quien levanta la excepcion(o sea, quienes avisan que se rompio el contrato).
+         - Quienes deben handlear las excepciones.
+         - Que excepcion levanta si se rompe el contraro.
+         - Como handlear la excepcion.
+
+
+
+      Como handlear una excepcion:
+       1) Devolver otro objeto como resultado del mensaje on:do:
+       2) Pasar la excepcion hacia arriba(proximo handler)
+       3) retry vuelve a intentar correr lo mismo
+       4) resume: continua la ejecucion devolviendo como resultado lo que ponemos
+
+     Que excepcion levanto?
+
+      1) Crear una excp. por cada cond. de error
+      2) Levantar siempre el mismo tipo de error a menos que tenga usar un handler particular. --> correcta, solo tiene sentido crear una excepcion si la puedo handlear
+
+
+   Contratos en objetos:
+   
+      - precondiciones    --> implicitas siempre
+      - post condiciones  --> asertamos en los tests
+      - invariantes       --> asertamos en los tests
+
+
 
 
 
