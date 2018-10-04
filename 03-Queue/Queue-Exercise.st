@@ -135,36 +135,45 @@ Object subclass: #Queue
 	poolDictionaries: ''
 	category: 'Queue-Exercise'!
 
-!Queue methodsFor: 'accessing' stamp: 'tj 10/3/2018 13:16:02'!
+!Queue methodsFor: 'accessing' stamp: 'tj 10/4/2018 16:08:15'!
 dequeue
 	
-	[^ contents removeLast] on: Error do: [self error: self class queueEmptyErrorDescription] .! !
+	
+	^ (contents removeFirst value) ! !
 
-!Queue methodsFor: 'accessing' stamp: 'tj 10/2/2018 18:36:57'!
+!Queue methodsFor: 'accessing' stamp: 'tj 10/4/2018 16:08:49'!
 enqueue: aString 
 	
-	contents addFirst: aString.! !
+	| last|
+	last _ contents removeLast.
 
-!Queue methodsFor: 'accessing' stamp: 'tj 10/1/2018 21:28:58'!
+	contents addLast: aString.
+	contents addLast: last.! !
+
+!Queue methodsFor: 'accessing' stamp: 'tj 10/4/2018 15:51:19'!
 isEmpty
 	
-	^ contents isEmpty! !
+	^ contents size = 1! !
 
-!Queue methodsFor: 'accessing' stamp: 'tj 10/3/2018 13:15:14'!
+!Queue methodsFor: 'accessing' stamp: 'tj 10/4/2018 16:08:21'!
 next	
 	
-	 [^ contents last] on: Error do: [ self error: self class queueEmptyErrorDescription] ! !
+	 ^ (contents first value) ! !
 
-!Queue methodsFor: 'accessing' stamp: 'tj 10/2/2018 18:39:02'!
+!Queue methodsFor: 'accessing' stamp: 'tj 10/4/2018 15:58:16'!
 size	
 	
-	^ contents size! !
+	^ contents size - 1! !
 
 
-!Queue methodsFor: 'as yet unclassified' stamp: 'tj 10/1/2018 21:27:48'!
+!Queue methodsFor: 'initialize' stamp: 'tj 10/4/2018 16:08:35'!
 initialize
 	
-	contents _ OrderedCollection new! !
+	contents _ OrderedCollection new.
+	
+	contents addLast:  [self error: Queue queueEmptyErrorDescription]
+	
+! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
