@@ -70,7 +70,7 @@ Modelo platon:
 
 Las clases son objetos que representan ideas/conceptos.
 
-Segun la vision clasica/aristotelica las instancias de la clase se comportan como la clase indica, por ende toda instancia sabe a que clase pertenece/ de quien es instancia. El objeto no conoce la implementacion de los mensajes que sabe responder, de hecho le pide pregunta a la clase si implementa dicho mensaje y le pide que lo ejecute. 
+Segun la vision clasica/aristotelica las instancias de la clase se comportan como la clase indica, por ende toda instancia sabe a que clase pertenece/ de quien es instancia. El objeto no conoce la implementacion de los mensajes que sabe responder, de hecho le pregunta a la clase si implementa dicho mensaje y le pide que lo ejecute. 
 
 Es discutible que las clases sepan responder el mensaje new, pues no se deberia esperar que el ente abstracto sepa responder objetos concretos.
 
@@ -110,7 +110,7 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
 
  - no tiene que ver exclusivamente con clases
 
- - no ninguna relacion/restriccion polimorfismo/clase. Los lenguajes dinamicamente tipados son menos acoplados respecto de los tipos que los estaticos.
+ - no hay ninguna relacion/restriccion polimorfismo/clase. Los lenguajes dinamicamente tipados son menos acoplados respecto de los tipos que los estaticos.
 
  	1) el polimorfismo permite intercambiar implementacion sin que el que usa el objeto se entere. En el semaforo si quisiera tener señales sonoras
  	   como la de maipu, las soluciones que tengo son: 1- voy al regulador de transito de maipu y le agrego un nuevo colaborador "señal de detencion sonora" y empezar a apgar y prender la señal en los metodos que la usan, aunque ese cambio es una paja porque implica modificar en muchos lugares.
@@ -131,7 +131,7 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
  			aClousure := [return 10].
  			return 20 + aClousure value   
 
- 	si ejecuto metodoEjemplo se retorna 10 porque el return las full clousures se bindea al contexto donde ejecuta, por ende bindea el return del clousure al return del metodo.
+ 	si ejecuto metodoEjemplo se retorna 10 porque el return de las full clousures se bindea al contexto donde ejecuta, por ende bindea el return del clousure al return del metodo.
 
 
  	Los lenguajes prototipados permiten representar facilmente objetos con comportamiento especifico sin mas que los mismos objetos. En los lenguajes de clasificacion hay que caer en el "if" o tener una jerarquia de clases que me diferencie el comportamiento. Un lenguaje de clasificacion no permite modelar entidades cuya instancia y concepto sean unicos, DIOS es un ejemplo.
@@ -180,7 +180,7 @@ POLIMORFISMO: relacion entre objetos y mensajes: un conjunto de objetos son poli
    	fortran
 
 
-   	1) Favorece uso de objetos inmutables 
+   	1) Favorecer uso de objetos inmutables 
    	2) Crear ojetos completos
    	3) Crear objetos validos
    	4) No usar nil
@@ -243,6 +243,76 @@ EXCEPTIONS:
       - precondiciones    --> implicitas siempre
       - post condiciones  --> asertamos en los tests
       - invariantes       --> asertamos en los tests
+
+
+
+CLASE TEORICA POST 1 PARCIAL
+
+Framework: solucion concreta, tiene codigo relacionado, son dependientes del lenguaje
+
+3 tipos de frameworks:
+
+   - generadores de codigo: horrible(no llegaron a nivel diseño a darse cuenta "como generar codigo"). Necesitaria generar un template donde despues luego se rellena, ese template podria ser modelado con una clase
+   - caja blanca: intermedio.
+      Cuando los utilizo tengo que subclasificar clases del framework. Cuando subclasificamos estamos rompiendo el encapsulamiento de la superclase.
+      No es bueno porque cuando van saliendo nuevas versiones se rompe todo
+   - caja negra: mejor
+      Solo tengo que instanciar clases que el framework ya me provee(Hibernate)
+
+
+Un framework contrala la ejecucion y manda mensajes a los objetos, en cambio un modulo/bibliote funciona al revez, lo uso yo mandando mensajes a el.
+
+Idioms:
+   Nunca poner asignacion de recursos dentro del try
+   |fileStream|
+   fileStream := FileStream named: 'pepe.txt'
+   [ fileStream write: 'pepeee'. codigo . codigo. codigo ] ensure: [ fileStream close ]
+
+   lo abstraemos con open: aFileStream during: aBlock
+
+   y sacamos codigo repetido
+   Esa abstraccion es un idiom.
+   Sin closures no se puede implementar.
+   No depende del dominio del problema de negocio.
+
+Patrones de Diseño:
+
+   Proveen una solucion abstracta y de diseño a problemas de la profecion.
+   Libro Smalltalk best practices patterns.
+   Todo patron tiene:
+      - nombre 1
+      - intencion 2
+      - descripcion
+      - estructura
+      - ejemplo
+      - implementacion
+      - usos conocidos 3
+      - patrones relacionados   
+
+      Un patron de diseño no se crea, se descubre al haber aplicado de manera exitosa esa solucion en distintos contextos.
+      Delegacion con subclasificacion: casi todos los patrones de diseño tienen la misma estructura de diseño/diagrama de clases.
+
+      Casi todos tienen como uso conocido MVC(fue el primer framework de objetos, implementado en smalltalk para que el ser humano interactue con mouse y teclado con la pc)
+
+      Decorator: agrega funcionalidad ORTOGONAL de manera dinamica a un objeto, "es una alternativa a la subclasificacion". Tiene que ser polimorficos con los objetos decorados en todo el protocolo.
+
+      Dado un objeto se lo "decora" dinamicamente
+
+      ConnectionDecorator es subclase de connection
+      Y cada Decorator subclasifica ConnectionDecorator modificando los mensajes que son necesarios. El mensaje decorating le dice a quien decora.
+      Cuando la cadena tiene un orden importante de como se debe crear hay otro patron, el Builder.
+      Las variables de instancia nunca deberian ser privadas.
+      El unico acoplamiento entre objetos en un lenguaje dinamicamente tipado son los mensajes que saben responder. En lenguajes estaticamente tipados es necesario preveer que clases van a ser decoradas. En los lenguajes prototipados no soluciona nada, el problema no existe.
+      Smalltalk tiene el mensaje become, que lo que hace es swapear referencias.
+
+      Adapter:
+
+         Permite que se puedan comunicar dos objetos que no estan preparados para comunicarse("colaborar").
+         Por ejemplo un traductor de idioma.
+         El adapter conoce el objeto al que adapta
+         No es polimorfico con el objeto al que adapta a diferencia del decorator. Lo que se adapta es un protocolo que uno de los objetos no sabe responder y el otro si.
+         No tiene sentido hacer adapter de adapter de adapter.... se usa solo uno en el medio. NO agrega funcionalidad a diferencia de decorator, solo permite adaptar protocolos. Hay que crear un adaptador por cada clase que deseo adaptar, estaria bueno poder configurarlo para tener un adaptador universal. Esto no es posible pero si es posible. Esto es un pluggable adapter.
+   
 
 
 
