@@ -385,6 +385,15 @@ initializeOf: anAmount
 	
 	! !
 
+!Transfer methodsFor: 'initialization' stamp: 'mf 10/24/2018 18:33:05'!
+initializeOf: anAmount from: anAccount to: anotherAccount
+	
+	value := anAmount.
+	depositLeg := TransferDeposit relatedTo: self .
+	withdrawLeg := TransferWithdraw relatedTo: self 
+	
+	! !
+
 
 !Transfer methodsFor: 'legs' stamp: 'HAW 10/18/2018 20:53:34'!
 depositLeg
