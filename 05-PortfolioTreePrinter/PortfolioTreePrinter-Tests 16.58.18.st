@@ -500,7 +500,7 @@ test28PortfolioTreePrinterPrintsTheCompositeInDepthFirstOrder
 	self assert: '  account2' equals: (lines at: 4).
 	self assert: ' account3' equals: (lines at: 5).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'HAW 10/18/2018 16:47:19'!
+!PortfolioTest methodsFor: 'tests' stamp: 'tj 10/24/2018 14:52:42'!
 test29ReversePortfolioTreePrinterPrintsTheCompositeStartingFromTheLeaves
 
 	| account1 account2 account3 complexPortfolio composedPortfolio accountNames lines |
@@ -528,45 +528,75 @@ test29ReversePortfolioTreePrinterPrintsTheCompositeStartingFromTheLeaves
 	! !
 
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HAW 5/10/2018 19:22:21'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/22/2018 17:43:34'!
 accountSummaryLinesOf: aReceptiveAccount 
 	
-	self shouldBeImplemented ! !
+	|accountLines|.
+	 
+	^(AccountSummaryLines of: aReceptiveAccount) value.
+	
+	"accountLines _ aReceptiveAccount summary.
+	
+	^ accountLines ."! !
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HernanWilkinson 9/6/2016 19:43'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/23/2018 10:22:26'!
 accountTransferNetOf: aReceptiveAccount 
 	
-	self shouldBeImplemented ! !
+	^(AccountTransferNetOf of: aReceptiveAccount ) value.! !
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HernanWilkinson 9/6/2016 19:43'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/25/2018 15:48:26'!
 investmentEarningsOf: aReceptiveAccount 
 	
-	self shouldBeImplemented ! !
+	
+	|earnings|.
+	
+	earnings _ (AccountInvestmentEarnings of: aReceptiveAccount ) value .
+	
+	^ earnings .! !
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HernanWilkinson 9/6/2016 19:43'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/25/2018 15:45:27'!
 investmentNetOf: aReceptiveAccount 
 	
-	self shouldBeImplemented ! !
+	^ (AccountInvestmentNet of: aReceptiveAccount ) value.! !
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HernanWilkinson 9/6/2016 19:43'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/24/2018 11:37:45'!
 portofolioTreeOf: aPortfolio namingAccountWith: aDictionary 
 	
-	self shouldBeImplemented ! !
+	|lines|.
+	
+	lines _ (AccountTreePrinter of: aPortfolio with: aDictionary) value.
+	
+	^ lines.! !
 
-!PortfolioTest methodsFor: 'test support' stamp: 'HAW 10/18/2018 16:38:05'!
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/21/2018 17:02:58'!
 registerCertificateOfDepositOf: anAmount during: aNumberOfDays at: anInteresRate on: anAccount
 
-	self shouldBeImplemented ! !
+	|investment|.
 
-!PortfolioTest methodsFor: 'test support' stamp: 'mf 10/24/2018 19:05:21'!
+	investment _ Investment registerOf: anAmount during: aNumberOfDays at: anInteresRate on: anAccount.
+	
+	^ investment .
+
+	 ! !
+
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/21/2018 15:52:53'!
 registerTransferOf: anAmount from: fromAccount to: toAccount
 
-	fromAccount register: (Withdraw new initializeFor: anAmount).
-	toAccount register: (Deposit new initializeFor: anAmount).
-
-	^Transfer new initializeOf: 100. ! !
-
-!PortfolioTest methodsFor: 'test support' stamp: 'HernanWilkinson 9/6/2016 19:43'!
-reversePortofolioTreeOf: aPortfolio namingAccountWith: aDictionary 
+	|transfer|.
 	
-	self shouldBeImplemented ! !
+	transfer _ Transference register: anAmount from: fromAccount to: toAccount.
+	
+	^ transfer. 
+	
+	! !
+
+!PortfolioTest methodsFor: 'test support' stamp: 'tj 10/24/2018 15:01:15'!
+reversePortofolioTreeOf: aPortfolio namingAccountWith: aDictionary 
+
+	|lines|.
+	
+	lines _ (AccountReverseTreePrinter of: aPortfolio  with: aDictionary ) value.
+	
+	^ lines.
+	
+	 ! !
