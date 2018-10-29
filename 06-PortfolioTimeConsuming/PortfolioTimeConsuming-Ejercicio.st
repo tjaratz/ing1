@@ -47,18 +47,22 @@ initializeFor: aReceptiveAccount
 	account := aReceptiveAccount ! !
 
 
-!AccountSummaryWithInvestmentEarnings methodsFor: 'evaluating' stamp: 'mf 10/25/2018 21:37:17'!
+!AccountSummaryWithInvestmentEarnings methodsFor: 'evaluating' stamp: 'mf 10/29/2018 20:18:14'!
 lines 
 
-	| lines investmentEarnings aSemaphore aStream |
-	aSemaphore _ Semaphore new.
-	aStream _ WriteStream on: (OrderedCollection new: 2).
-	[ aStream nextPut: (AccountSummary for: account) lines. aSemaphore signal.] fork .
+	| lines investmentEarnings |
+
+	lines _ [ (AccountSummary for: account) lines.] forkAndWait.
 	investmentEarnings := InvestmentEarningVisitor for: account.
-	aSemaphore wait.
-	lines _ aStream contents.
 	lines add: 'Ganancias por ', investmentEarnings value printString.
 	
+	
+	"
+		| semaphore |
+	semaphore := Semaphore new.
+	[self ensure: [semaphore signal]] fork.
+	semaphore wait.
+	"
 	 ^ lines! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -229,6 +233,16 @@ for: aValue
 
 	^ self new initializeFor: aValue ! !
 
+!Deposit class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 19:41'!
+register: aValue on: account
+
+	| withdraw |
+	
+	withdraw := self for: aValue.
+	account register: withdraw.
+		
+	^ withdraw! !
+
 
 !classDefinition: #TransferLeg category: #'PortfolioTimeConsuming-Ejercicio'!
 AccountTransaction subclass: #TransferLeg
@@ -343,6 +357,16 @@ Withdraw class
 for: aValue
 
 	^ self new initializeFor: aValue ! !
+
+!Withdraw class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/14/2011 05:32'!
+register: aValue on: account
+
+	| withdraw |
+	
+	withdraw := self for: aValue.
+	account register: withdraw.
+		
+	^ withdraw! !
 
 
 !classDefinition: #AccountTransactionVisitor category: #'PortfolioTimeConsuming-Ejercicio'!
@@ -1050,3 +1074,30 @@ register: anAmount from: fromAccount to: toAccount
 	toAccount register: transfer depositLeg.
 	
 	^transfer! !
+
+
+!classDefinition: #SFuture category: #'PortfolioTimeConsuming-Ejercicio'!
+ProtoObject subclass: #SFuture
+	instanceVariableNames: 'futureValue error lock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'PortfolioTimeConsuming-Ejercicio'!
+
+!SFuture methodsFor: 'as yet unclassified' stamp: 'mf 10/29/2018 19:52:53'!
+doesNotUnderstand: aMessage 
+    ^ self value 
+        perform: aMessage selector
+        withArguments: aMessage arguments! !
+
+!SFuture methodsFor: 'as yet unclassified' stamp: 'mf 10/29/2018 19:52:31'!
+hasValue
+    ^ lock isSignaled! !
+
+!SFuture methodsFor: 'as yet unclassified' stamp: 'mf 10/29/2018 20:12:28'!
+value: aBlock 
+    lock := Semaphore new.
+
+    [ [ [ futureValue := aBlock value ] 
+        on: Error
+        do: [ :err | error := err.] ]
+        ensure: lock signal ] fork.! !
