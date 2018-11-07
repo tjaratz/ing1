@@ -202,14 +202,14 @@ tresXEnRaya
 	^ self tresEnRaya: self celdasDeX .! !
 
 
-!TerniLapilli methodsFor: 'inicializacion' stamp: 'tj 11/6/2018 16:51:41'!
+!TerniLapilli methodsFor: 'inicializacion' stamp: 'tj 11/7/2018 18:01:48'!
 initialize
 	
 	celdasDeX _ OrderedCollection new.
 	
 	celdasDeO _ OrderedCollection  new.
 	
-	estado _ TerniLapilliTurnoDePonerFichasX .
+	estado _ TurnoDePonerFichasX .
 	! !
 
 
@@ -322,6 +322,11 @@ ganador: unaPartidaDeTerniLapilli
 	self subclassResponsibility ! !
 
 
+!TerniLapilliEstado class methodsFor: 'jugar' stamp: 'tj 11/7/2018 18:02:45'!
+moverFichaOdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
+
+	self subclassResponsibility ! !
+
 !TerniLapilliEstado class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:17:29'!
 moverFichaPertenecienteA: unConjuntoDeFichasDeUnJugador desde: unaCelda a: unaCeldaContigua en: unaPartidaDeTerniLapilli 
 
@@ -338,6 +343,27 @@ moverFichaPertenecienteA: unConjuntoDeFichasDeUnJugador desde: unaCelda a: unaCe
 	unaPartidaDeTerniLapilli avanzarAlProximoEstado
 
 	! !
+
+!TerniLapilliEstado class methodsFor: 'jugar' stamp: 'tj 11/7/2018 18:02:50'!
+moverFichaXdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
+
+	self subclassResponsibility ! !
+
+!TerniLapilliEstado class methodsFor: 'jugar' stamp: 'tj 11/7/2018 18:03:10'!
+ponerFichaOenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
+
+	self subclassResponsibility 
+	
+
+			! !
+
+!TerniLapilliEstado class methodsFor: 'jugar' stamp: 'tj 11/7/2018 18:03:05'!
+ponerFichaXenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
+
+	self subclassResponsibility 
+	
+
+			! !
 
 
 !classDefinition: #JuegoTerminado category: #'TerneLapilli-Ejercicio'!
@@ -387,8 +413,8 @@ ganador: unaPartidaDeTerniLapilli
 	^ 'El jugador X es el ganador'.! !
 
 
-!classDefinition: #TerniLapilliTurnoDeMoverO category: #'TerneLapilli-Ejercicio'!
-TerniLapilliEstado subclass: #TerniLapilliTurnoDeMoverO
+!classDefinition: #TurnoDeMoverO category: #'TerneLapilli-Ejercicio'!
+TerniLapilliEstado subclass: #TurnoDeMoverO
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -396,46 +422,46 @@ TerniLapilliEstado subclass: #TerniLapilliTurnoDeMoverO
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TerniLapilliTurnoDeMoverO class' category: #'TerneLapilli-Ejercicio'!
-TerniLapilliTurnoDeMoverO class
+!classDefinition: 'TurnoDeMoverO class' category: #'TerneLapilli-Ejercicio'!
+TurnoDeMoverO class
 	instanceVariableNames: ''!
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'estado' stamp: 'tj 11/6/2018 17:09:49'!
+!TurnoDeMoverO class methodsFor: 'estado' stamp: 'tj 11/7/2018 18:01:09'!
 esEstadoSiguientePara: unaPartidaDeTerniLapilli
 
-	^ (unaPartidaDeTerniLapilli estado isKindOf: TerniLapilliTurnoDeMoverX class) and: [unaPartidaDeTerniLapilli celdasDeO size = 3].! !
+	^ (unaPartidaDeTerniLapilli estado isKindOf: TurnoDeMoverX class) and: [unaPartidaDeTerniLapilli celdasDeO size = 3].! !
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:45:22'!
+!TurnoDeMoverO class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:45:22'!
 ganador: unaPartidaDeTerniLapilli
 
 	self error: self partidaNoTerminada! !
 
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:53'!
+!TurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:53'!
 moverFichaOdesde: unaCelda a: unaCeldaContigua en: unaPartidaDeTerniLapilli
 		
 		self moverFichaPertenecienteA: self celdasDeO desde: unaCelda a: unaCeldaContigua en: unaPartidaDeTerniLapilli  .! !
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:41'!
+!TurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:41'!
 moverFichaXdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 
 	self error: self class turnoDeO .! !
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:22:44'!
+!TurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:22:44'!
 ponerFichaOenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self error tableroCompleto .
 			! !
 
-!TerniLapilliTurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:22:34'!
+!TurnoDeMoverO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:22:34'!
 ponerFichaXenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self class turnoDeO .
 			! !
 
 
-!classDefinition: #TerniLapilliTurnoDeMoverX category: #'TerneLapilli-Ejercicio'!
-TerniLapilliEstado subclass: #TerniLapilliTurnoDeMoverX
+!classDefinition: #TurnoDeMoverX category: #'TerneLapilli-Ejercicio'!
+TerniLapilliEstado subclass: #TurnoDeMoverX
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -443,32 +469,32 @@ TerniLapilliEstado subclass: #TerniLapilliTurnoDeMoverX
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TerniLapilliTurnoDeMoverX class' category: #'TerneLapilli-Ejercicio'!
-TerniLapilliTurnoDeMoverX class
+!classDefinition: 'TurnoDeMoverX class' category: #'TerneLapilli-Ejercicio'!
+TurnoDeMoverX class
 	instanceVariableNames: ''!
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'estado' stamp: 'tj 11/6/2018 17:09:33'!
+!TurnoDeMoverX class methodsFor: 'estado' stamp: 'tj 11/7/2018 18:01:30'!
 esEstadoSiguientePara: unaPartidaDeTerniLapilli
 
-	^ ((unaPartidaDeTerniLapilli estado isKindOf: TerniLapilliTurnoDePonerFichasO class) or:[unaPartidaDeTerniLapilli estado isKindOf: TerniLapilliTurnoDeMoverO class]) and: [unaPartidaDeTerniLapilli celdasDeX size = 3].! !
+	^ ((unaPartidaDeTerniLapilli estado isKindOf: TurnoDePonerFichasO class) or:[unaPartidaDeTerniLapilli estado isKindOf: TurnoDeMoverO class]) and: [unaPartidaDeTerniLapilli celdasDeX size = 3].! !
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:05'!
+!TurnoDeMoverX class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:05'!
 ganador: unaPartidaDeTerniLapilli
 
 	self error: self partidaNoTerminada! !
 
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:22'!
+!TurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:22'!
 moverFichaOdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 		
 	self error: self class turnoDeX .! !
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:12'!
+!TurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:07:12'!
 moverFichaXdesde: unaCelda a: unaCeldaContigua en: unaPartidaDeTerniLapilli
 
 	self moverFichaPertenecienteA: self celdasDeX desde: unaCelda a: unaCeldaContigua en: unaPartidaDeTerniLapilli  .! !
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:21:18'!
+!TurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:21:18'!
 ponerFichaOenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self class turnoDeX .
@@ -476,7 +502,7 @@ ponerFichaOenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 			! !
 
-!TerniLapilliTurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:21:46'!
+!TurnoDeMoverX class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:21:46'!
 ponerFichaXenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self class tableroCompleto.
@@ -485,8 +511,8 @@ ponerFichaXenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 			! !
 
 
-!classDefinition: #TerniLapilliTurnoDePonerFichasO category: #'TerneLapilli-Ejercicio'!
-TerniLapilliEstado subclass: #TerniLapilliTurnoDePonerFichasO
+!classDefinition: #TurnoDePonerFichasO category: #'TerneLapilli-Ejercicio'!
+TerniLapilliEstado subclass: #TurnoDePonerFichasO
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -494,21 +520,21 @@ TerniLapilliEstado subclass: #TerniLapilliTurnoDePonerFichasO
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TerniLapilliTurnoDePonerFichasO class' category: #'TerneLapilli-Ejercicio'!
-TerniLapilliTurnoDePonerFichasO class
+!classDefinition: 'TurnoDePonerFichasO class' category: #'TerneLapilli-Ejercicio'!
+TurnoDePonerFichasO class
 	instanceVariableNames: ''!
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:41'!
+!TurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:41'!
 moverFichaOdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 
 	self error: self class tableroIncompleto .! !
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:29'!
+!TurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:29'!
 moverFichaXdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 
 	self error: self class turnoDeO .! !
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:00:27'!
+!TurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:00:27'!
 ponerFichaOenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
 		
 	self validarPosicionamientoDeUnaFichaEn: unaCelda sobre: unaPartidaDeTerniLapilli .
@@ -522,7 +548,7 @@ ponerFichaOenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
 			
 	! !
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:19:23'!
+!TurnoDePonerFichasO class methodsFor: 'jugar' stamp: 'tj 11/6/2018 17:19:23'!
 ponerFichaXenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self class turnoDeO .
@@ -531,30 +557,30 @@ ponerFichaXenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 			! !
 
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:39'!
+!TurnoDePonerFichasO class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:39'!
 tableroIncompleto
 
 	^ 'El jugador o no puso todas las fichas todavía'! !
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:35'!
+!TurnoDePonerFichasO class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:35'!
 turnoEquivocado
 
 	^ 'El turno corresponde al jugador o'! !
 
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'estado' stamp: 'tj 11/6/2018 17:08:53'!
+!TurnoDePonerFichasO class methodsFor: 'estado' stamp: 'tj 11/7/2018 18:01:48'!
 esEstadoSiguientePara: unaPartidaDeTerniLapilli
 
-	^ (unaPartidaDeTerniLapilli estado isKindOf: TerniLapilliTurnoDePonerFichasX class) .! !
+	^ (unaPartidaDeTerniLapilli estado isKindOf: TurnoDePonerFichasX class) .! !
 
-!TerniLapilliTurnoDePonerFichasO class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:09'!
+!TurnoDePonerFichasO class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:09'!
 ganador: unaPartidaDeTerniLapilli
 
 	self error: self partidaNoTerminada! !
 
 
-!classDefinition: #TerniLapilliTurnoDePonerFichasX category: #'TerneLapilli-Ejercicio'!
-TerniLapilliEstado subclass: #TerniLapilliTurnoDePonerFichasX
+!classDefinition: #TurnoDePonerFichasX category: #'TerneLapilli-Ejercicio'!
+TerniLapilliEstado subclass: #TurnoDePonerFichasX
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -562,21 +588,21 @@ TerniLapilliEstado subclass: #TerniLapilliTurnoDePonerFichasX
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TerniLapilliTurnoDePonerFichasX class' category: #'TerneLapilli-Ejercicio'!
-TerniLapilliTurnoDePonerFichasX class
+!classDefinition: 'TurnoDePonerFichasX class' category: #'TerneLapilli-Ejercicio'!
+TurnoDePonerFichasX class
 	instanceVariableNames: ''!
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:14'!
+!TurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:06:14'!
 moverFichaOdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 
 	self error: self class turnoEquivocado .! !
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:05:21'!
+!TurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 17:05:21'!
 moverFichaXdesde: unaCelda a: unaCeldaContigua en: unaPartidaTerniLapilli
 
 	self error: self class tableroIncompleto.! !
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:22:30'!
+!TurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:22:30'!
 ponerFichaOenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 	
 	self error: self turnoDeX.
@@ -585,7 +611,7 @@ ponerFichaOenPosicion: aPoint sobre: unaPartidaDeTerniLapilli
 			
 	! !
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:00:15'!
+!TurnoDePonerFichasX class methodsFor: 'jugar' stamp: 'tj 11/7/2018 16:00:15'!
 ponerFichaXenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
 
 	self validarPosicionamientoDeUnaFichaEn: unaCelda sobre: unaPartidaDeTerniLapilli .
@@ -598,23 +624,23 @@ ponerFichaXenPosicion: unaCelda sobre: unaPartidaDeTerniLapilli
 			! !
 
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:15:11'!
+!TurnoDePonerFichasX class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:15:11'!
 tableroIncompleto
 
 	^ 'El jugador x no puso todas las fichas todavía'! !
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:01'!
+!TurnoDePonerFichasX class methodsFor: 'errores' stamp: 'tj 11/6/2018 17:17:01'!
 turnoEquivocado
 
 	^ 'El turno corresponde al jugador x'! !
 
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'estado' stamp: 'tj 11/6/2018 17:09:41'!
+!TurnoDePonerFichasX class methodsFor: 'estado' stamp: 'tj 11/7/2018 18:01:30'!
 esEstadoSiguientePara: unaPartidaDeTerniLapilli
 
-	^ (unaPartidaDeTerniLapilli estado isKindOf: TerniLapilliTurnoDePonerFichasO class) and: [unaPartidaDeTerniLapilli celdasDeX size < 3].! !
+	^ (unaPartidaDeTerniLapilli estado isKindOf: TurnoDePonerFichasO class) and: [unaPartidaDeTerniLapilli celdasDeX size < 3].! !
 
-!TerniLapilliTurnoDePonerFichasX class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:13'!
+!TurnoDePonerFichasX class methodsFor: 'estado' stamp: 'tj 11/7/2018 17:47:13'!
 ganador: unaPartidaDeTerniLapilli
 
 	self error: self partidaNoTerminada! !
