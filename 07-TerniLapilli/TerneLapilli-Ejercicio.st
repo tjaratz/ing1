@@ -57,6 +57,15 @@ test04ponerFichaDeberiaAgregarLaFichaAlJuego
 	
 	self assert: (terniLapilli hayFicha: #x enPosicion: (1@2)).! !
 
+!TerneLapilliTest methodsFor: 'tests' stamp: 'mf 11/7/2018 16:00:57'!
+test05ponerFichaMalTiraError
+
+	|terniLapilli|.
+	
+	terniLapilli _ TerniLapilli new.
+	
+	self should: [terniLapilli ponerFichaXenPosicion: (4@6).] raise: Error  withExceptionDo: [ :anError | self assert: anError messageText equals: 'El punto es inválido'] .! !
+
 !TerneLapilliTest methodsFor: 'tests' stamp: 'mf 11/5/2018 19:22:15'!
 test06ponerFichaDeberiaNoAgregarOtrasFichas
 
@@ -231,7 +240,7 @@ ponerFichaOenPosicion: aPoint
 	
 	(self tresOEnRaya) ifTrue: [ganador _ 'o'].! !
 
-!TerniLapilli methodsFor: 'jugar' stamp: 'tj 11/5/2018 17:35:29'!
+!TerniLapilli methodsFor: 'jugar' stamp: 'mf 11/7/2018 15:57:02'!
 ponerFichaXenPosicion: aPoint 
 
 	self juegoTerminado ifTrue: [self error: 'El juego termino'].
@@ -239,7 +248,7 @@ ponerFichaXenPosicion: aPoint
 	jugadorActual = 'x' ifFalse: [self error: 'El turno corresponde al jugador o'].
 	
 	(self puedeXPonerFicha) ifFalse: [self error: 'El jugador x ya puso todas sus fichas'].
-	
+	(self puntoEntre1Y3: aPoint) ifFalse: [self error: 'El punto es inválido'].
 	(self celdaLibre: aPoint) ifFalse: [self error: 'La celda ', aPoint printString, ' se encuentra ocupada'].
 	
 	celdasDeX add: aPoint .
@@ -247,6 +256,11 @@ ponerFichaXenPosicion: aPoint
 	jugadorActual _ 'o'.
 	
 	(self tresXEnRaya) ifTrue: [ganador _ 'x'].! !
+
+!TerniLapilli methodsFor: 'jugar' stamp: 'mf 11/7/2018 16:00:14'!
+puntoEntre1Y3: aPoint
+
+	^ aPoint x <= 3 and: aPoint x > 0 and: aPoint y > 0 and: aPoint y <=3.! !
 
 
 !TerniLapilli methodsFor: 'validaciones' stamp: 'tj 11/3/2018 18:26:23'!
